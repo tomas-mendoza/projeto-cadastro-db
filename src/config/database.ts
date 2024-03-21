@@ -6,7 +6,8 @@ export default class Database {
 
   constructor() {
     this.sequelize = new Sequelize(env.DATABASE_NAME, env.DATABASE_USER, env.DATABASE_PASSWORD, {
-      dialect: 'mysql'
+      dialect: 'mysql',
+      logging: false
     });
   }
 
@@ -14,7 +15,7 @@ export default class Database {
     try {
       await this.sequelize?.authenticate();
       await this.sequelize?.sync();
-      
+
       console.log('The connection has been estabilished successfully!');
     } catch(err: unknown) {
       console.error(err);

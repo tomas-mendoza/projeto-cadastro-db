@@ -4,7 +4,7 @@ class Server {
   private port: number = 8000;
 
   constructor() {
-    
+
   }
 
   connect() {

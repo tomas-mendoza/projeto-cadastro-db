@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  database:
+    image: mysql:latest
+    container_name: database
+    tty: true
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=projeto_cadastro
+    volumes:
+      - mysql_data:/var/lib/mysql
+  api:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    tty: true
+    ports: 
+      - 8000:8000
+    depends_on:
+      - database
+    volumes:
+    - ./src:/home/app/src
+
+volumes:
+  mysql_data:

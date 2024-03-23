@@ -1,11 +1,13 @@
+import EntityNotFound from "../errors/EntityNotFound";
+import errorHandler from "../helpers/error.handler";
 import Role from "../models/Role";
 
 interface IRoleRepository {
   create(role: Role): Promise<void>;
   update(role: Role): Promise<void>;
   delete(id: number): Promise<void>;
-  getAll(): Promise<Role[]>;
-  getById(id: number): Promise<Role>;
+  getAll(): Promise<Role[] | undefined>;
+  getById(id: number): Promise<Role | undefined>;
 }
 
 class RoleRepository implements IRoleRepository {
@@ -15,7 +17,7 @@ class RoleRepository implements IRoleRepository {
         description: role.description
       });
     } catch (err: unknown) {
-      throw new Error(`${err}`);
+      errorHandler(err);
     }
   }
 
@@ -26,14 +28,14 @@ class RoleRepository implements IRoleRepository {
       const newRole = await Role.findByPk(id);
 
       if (!newRole) {
-        throw new Error('The role was not found!');
+        throw new EntityNotFound('The role was not found!');
       }
 
       newRole.description = description;
 
       newRole.save();
     } catch (err: unknown) {
-      throw new Error(`${err}`);
+
     }
   }
 
@@ -42,12 +44,12 @@ class RoleRepository implements IRoleRepository {
       const newRole = await Role.findByPk(id);
 
       if (!newRole) {
-        throw new Error('The role was not found!');
+        throw new EntityNotFound('The role was not found!');
       }
 
       newRole.destroy();
     } catch (err: unknown) {
-      throw new Error(`${err}`);
+      errorHandler(err);
     }
   }
 
@@ -57,7 +59,7 @@ class RoleRepository implements IRoleRepository {
 
       return roles;
     } catch (err: unknown) {
-      throw new Error(`${err}`);
+      errorHandler(err);
     }
   }
 
@@ -66,12 +68,12 @@ class RoleRepository implements IRoleRepository {
       const newRole = await Role.findByPk(id);
 
       if (!newRole) {
-        throw new Error('The role was not found!');
+        throw new EntityNotFound('The role was not found!');
       }
 
       return newRole;
     } catch (err: unknown) {
-      throw new Error(`${err}`);
+      errorHandler(err);
     }
   }
 }

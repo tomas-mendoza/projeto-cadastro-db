@@ -1,3 +1,5 @@
+import EntityNotFound from "../errors/EntityNotFound";
+import errorHandler from "../helpers/error.handler";
 import Employee from "../models/Employee";
 
 interface IEmployeeRepository {
@@ -20,7 +22,7 @@ class EmployeeRepository implements IEmployeeRepository {
         role_id
       });
     } catch (err: unknown) {
-      throw new Error(`${err}`);
+      errorHandler(err);
     }
   }
 
@@ -31,7 +33,7 @@ class EmployeeRepository implements IEmployeeRepository {
       const newEmployee = await Employee.findByPk(id);
 
       if (!newEmployee) {
-        throw new Error('The employee was not found!');
+        throw new EntityNotFound('The employee was not found!');
       }
 
       newEmployee.name = name;
@@ -41,7 +43,7 @@ class EmployeeRepository implements IEmployeeRepository {
 
       await newEmployee.save();
     } catch (err: unknown) {
-      throw new Error(`${err}`);
+      errorHandler(err);
     }
   }
 
@@ -50,12 +52,12 @@ class EmployeeRepository implements IEmployeeRepository {
       const newEmployee = await Employee.findByPk(id);
 
       if (!newEmployee) {
-        throw new Error('The employee was not found!');
+        throw new EntityNotFound('The employee was not found!');
       }
 
       await newEmployee.destroy();
     } catch (err: unknown) {
-      throw new Error(`${err}`);
+      errorHandler(err);
     }
   }
 
@@ -65,7 +67,7 @@ class EmployeeRepository implements IEmployeeRepository {
 
       return employees;
     } catch (err: unknown) {
-      throw new Error(`${err}`);
+      errorHandler(err);
     }
   }
 
@@ -74,12 +76,12 @@ class EmployeeRepository implements IEmployeeRepository {
       const newEmployee = await Employee.findByPk(id);
 
       if (!newEmployee) {
-        throw new Error(`The employee was not found!`);
+        throw new EntityNotFound(`The employee was not found!`);
       }
 
       return newEmployee;
     } catch (err: unknown) {
-      throw new Error(`${err}`);
+      errorHandler(err);
     }
   }
 }

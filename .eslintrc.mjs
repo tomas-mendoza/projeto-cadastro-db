@@ -33,6 +33,7 @@ module.exports = {
       'error',
       2
     ],
+    'space-after-keyword': false,
     'linebreak-style': [
       'error',
       'unix'

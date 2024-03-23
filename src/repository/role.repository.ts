@@ -1,6 +1,5 @@
-import EntityNotFound from "../errors/EntityNotFound";
-import errorHandler from "../helpers/error.handler";
-import Role from "../models/Role";
+import EntityNotFound from '../errors/EntityNotFound';
+import Role from '../models/Role';
 
 interface IRoleRepository {
   create(role: Role): Promise<void>;
@@ -12,69 +11,49 @@ interface IRoleRepository {
 
 class RoleRepository implements IRoleRepository {
   async create(role: Role): Promise<void> {
-    try {
-      await Role.create({
-        description: role.description
-      });
-    } catch (err: unknown) {
-      errorHandler(err);
-    }
+    await Role.create({
+      description: role.description
+    });
   }
 
   async update(role: Role): Promise<void> {
-    try {
-      const { id, description } = role;
+    const { id, description } = role;
 
-      const newRole = await Role.findByPk(id);
+    const newRole = await Role.findByPk(id);
 
-      if (!newRole) {
-        throw new EntityNotFound('The role was not found!');
-      }
-
-      newRole.description = description;
-
-      newRole.save();
-    } catch (err: unknown) {
-
+    if(!newRole) {
+      throw new EntityNotFound('The role was not found!');
     }
+
+    newRole.description = description;
+
+    newRole.save();
   }
 
   async delete(id: number): Promise<void> {
-    try {
-      const newRole = await Role.findByPk(id);
+    const newRole = await Role.findByPk(id);
 
-      if (!newRole) {
-        throw new EntityNotFound('The role was not found!');
-      }
-
-      newRole.destroy();
-    } catch (err: unknown) {
-      errorHandler(err);
+    if(!newRole) {
+      throw new EntityNotFound('The role was not found!');
     }
+
+    newRole.destroy();
   }
 
   async getAll(): Promise<Role[]> {
-    try {
-      const roles = await Role.findAll();
+    const roles = await Role.findAll();
 
-      return roles;
-    } catch (err: unknown) {
-      errorHandler(err);
-    }
+    return roles;
   }
 
   async getById(id: number): Promise<Role> {
-    try {
-      const newRole = await Role.findByPk(id);
+    const newRole = await Role.findByPk(id);
 
-      if (!newRole) {
-        throw new EntityNotFound('The role was not found!');
-      }
-
-      return newRole;
-    } catch (err: unknown) {
-      errorHandler(err);
+    if(!newRole) {
+      throw new EntityNotFound('The role was not found!');
     }
+
+    return newRole;
   }
 }
 

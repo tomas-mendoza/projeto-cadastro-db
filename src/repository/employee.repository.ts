@@ -1,5 +1,7 @@
 import EntityNotFound from '../errors/EntityNotFound';
 import Employee from '../models/Employee';
+import Role from '../models/Role';
+import roleRepository from './role.repository';
 
 interface IEmployeeRepository {
   create(employee: Employee): Promise<void>;
@@ -12,6 +14,10 @@ interface IEmployeeRepository {
 class EmployeeRepository implements IEmployeeRepository {
   async create(employee: Employee): Promise<void> {
     const { name, age, cpf, role_id } = employee;
+
+    if(role_id) {
+      await roleRepository.getById(role_id);
+    }
 
     await Employee.create({
       name,
@@ -33,13 +39,26 @@ class EmployeeRepository implements IEmployeeRepository {
     newEmployee.name = name;
     newEmployee.age = age;
     newEmployee.cpf = cpf;
+
+    if(role_id) {
+      await roleRepository.getById(role_id);
+    }
+
     newEmployee.role_id = role_id;
 
     await newEmployee.save();
   }
 
   async delete(id: number): Promise<void> {
-    const newEmployee = await Employee.findByPk(id);
+    const newEmployee = await Employee.findByPk(id, {
+      include: {
+        model: Role,
+        as: 'role'
+      },
+      attributes: {
+        exclude: ['role_id']
+      }
+    });
 
     if (!newEmployee) {
       throw new EntityNotFound('The employee was not found!');
@@ -49,7 +68,15 @@ class EmployeeRepository implements IEmployeeRepository {
   }
 
   async getAll(): Promise<Employee[]> {
-    const employees = await Employee.findAll();
+    const employees = await Employee.findAll({
+      include: {
+        model: Role,
+        as: 'role'
+      },
+      attributes: {
+        exclude: ['role_id']
+      }
+    });
 
     return employees;
   }

@@ -11,24 +11,24 @@ export default class Employee extends Model {
   @AllowNull(false)
   @AutoIncrement
   @Column(DataType.INTEGER)
-  id!: number;
+    id!: number;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  name!: string;
+    name!: string;
 
   @AllowNull(false)
   @Column(DataType.INTEGER)
-  age!: number;
+    age!: number;
 
   @Unique
   @AllowNull(false)
   @Column(DataType.STRING(11))
-  cpf!: string;
+    cpf!: string;
 
   @ForeignKey(() => Role)
-  role_id!: number;
+    role_id!: number;
 
   @BelongsTo(() => Role)
-  role!: Role;
+    role!: Role;
 }

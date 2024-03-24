@@ -11,13 +11,13 @@ export default class Role extends Model {
   @AutoIncrement
   @Unique
   @Column(DataType.INTEGER)
-  id!: number;
+    id!: number;
 
   @Unique
   @AllowNull(false)
   @Column(DataType.STRING(100))
-  description!: string;
+    description!: string;
 
   @HasMany(() => Employee)
-  employees!: Employee[];
+    employees!: Employee[];
 }

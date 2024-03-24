@@ -41,7 +41,7 @@ class EmployeeRepository implements IEmployeeRepository {
   async delete(id: number): Promise<void> {
     const newEmployee = await Employee.findByPk(id);
 
-    if(!newEmployee) {
+    if (!newEmployee) {
       throw new EntityNotFound('The employee was not found!');
     }
 

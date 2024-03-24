@@ -2,16 +2,16 @@ import EntityNotFound from '../errors/EntityNotFound';
 import Role from '../models/Role';
 
 interface IRoleRepository {
-  create(role: Role): Promise<void>;
+  create(role: Role): Promise<Role>;
   update(role: Role): Promise<void>;
   delete(id: number): Promise<void>;
-  getAll(): Promise<Role[] | undefined>;
-  getById(id: number): Promise<Role | undefined>;
+  getAll(): Promise<Role[]>;
+  getById(id: number): Promise<Role>;
 }
 
 class RoleRepository implements IRoleRepository {
-  async create(role: Role): Promise<void> {
-    await Role.create({
+  async create(role: Role): Promise<Role> {
+    return await Role.create({
       description: role.description
     });
   }
@@ -21,7 +21,7 @@ class RoleRepository implements IRoleRepository {
 
     const newRole = await Role.findByPk(id);
 
-    if(!newRole) {
+    if (!newRole) {
       throw new EntityNotFound('The role was not found!');
     }
 
@@ -33,7 +33,7 @@ class RoleRepository implements IRoleRepository {
   async delete(id: number): Promise<void> {
     const newRole = await Role.findByPk(id);
 
-    if(!newRole) {
+    if (!newRole) {
       throw new EntityNotFound('The role was not found!');
     }
 
@@ -49,7 +49,7 @@ class RoleRepository implements IRoleRepository {
   async getById(id: number): Promise<Role> {
     const newRole = await Role.findByPk(id);
 
-    if(!newRole) {
+    if (!newRole) {
       throw new EntityNotFound('The role was not found!');
     }
 

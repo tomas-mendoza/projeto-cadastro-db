@@ -29,6 +29,9 @@ export default class Employee extends Model {
   @ForeignKey(() => Role)
     role_id!: number;
 
-  @BelongsTo(() => Role)
+  @BelongsTo(() => Role, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
     role!: Role;
 }

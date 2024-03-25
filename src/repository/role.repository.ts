@@ -3,7 +3,7 @@ import Role from '../models/Role';
 
 interface IRoleRepository {
   create(role: Role): Promise<Role>;
-  update(role: Role): Promise<void>;
+  update(role: Role): Promise<Role>;
   delete(id: number): Promise<void>;
   getAll(): Promise<Role[]>;
   getById(id: number): Promise<Role>;
@@ -16,7 +16,7 @@ class RoleRepository implements IRoleRepository {
     });
   }
 
-  async update(role: Role): Promise<void> {
+  async update(role: Role): Promise<Role> {
     const { id, description } = role;
 
     const newRole = await Role.findByPk(id);
@@ -27,7 +27,9 @@ class RoleRepository implements IRoleRepository {
 
     newRole.description = description;
 
-    newRole.save();
+    await newRole.save();
+
+    return newRole;
   }
 
   async delete(id: number): Promise<void> {

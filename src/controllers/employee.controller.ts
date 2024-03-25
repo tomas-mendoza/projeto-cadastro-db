@@ -20,11 +20,12 @@ class EmployeeControler {
         role_id: role_id ? role_id : null
       });
 
-      await employeeRepository.create(newEmployee);
+      const data = await employeeRepository.create(newEmployee);
 
       res.status(200).json({
         status: 'Created!',
-        message: 'The employee has been created successfully!'
+        message: 'The employee has been created successfully!',
+        data
       });
     } catch(err: unknown) {
       const { 
@@ -59,11 +60,12 @@ class EmployeeControler {
         role_id: role_id ? role_id : null
       });
 
-      await employeeRepository.update(newEmployee);
+      const data = await employeeRepository.update(newEmployee);
 
       res.status(200).json({
         status: 'Updated!',
-        message: 'This employee has been updated successfully!'
+        message: 'This employee has been updated successfully!',
+        data
       });
     } catch(err: unknown) {
       const { 

@@ -10,11 +10,12 @@ class RoleController {
         description: req.body.description
       });
 
-      await roleRepository.create(newRole);
+      const data = await roleRepository.create(newRole);
 
       return res.status(200).json({
         status: 'Created!',
-        message: 'The role has been created successfully!'
+        message: 'The role has been created successfully!',
+        data
       });
     } catch (err: unknown) {
       const { 
@@ -39,11 +40,12 @@ class RoleController {
         description: req.body.description  
       });
 
-      await roleRepository.update(newRole);
+      const data = await roleRepository.update(newRole);
 
       return res.status(200).json({
         status: 'Updated!',
-        message: 'This role has been updated successfully!'
+        message: 'This role has been updated successfully!',
+        data
       });
     } catch(err: unknown) {
       const {

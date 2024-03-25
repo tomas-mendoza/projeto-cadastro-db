@@ -4,22 +4,22 @@ import Role from '../models/Role';
 import roleRepository from './role.repository';
 
 interface IEmployeeRepository {
-  create(employee: Employee): Promise<void>;
-  update(employee: Employee): Promise<void>;
+  create(employee: Employee): Promise<Employee>;
+  update(employee: Employee): Promise<Employee>;
   delete(id: number): Promise<void>;
   getAll(): Promise<Employee[]>;
   getById(id: number): Promise<Employee>;
 }
 
 class EmployeeRepository implements IEmployeeRepository {
-  async create(employee: Employee): Promise<void> {
+  async create(employee: Employee): Promise<Employee> {
     const { name, age, cpf, role_id } = employee;
 
     if(role_id) {
       await roleRepository.getById(role_id);
     }
 
-    await Employee.create({
+    return await Employee.create({
       name,
       age,
       cpf,
@@ -27,7 +27,7 @@ class EmployeeRepository implements IEmployeeRepository {
     });
   }
 
-  async update(employee: Employee): Promise<void> {
+  async update(employee: Employee): Promise<Employee> {
     const { id, name, age, cpf, role_id } = employee;
 
     const newEmployee = await Employee.findByPk(id);
@@ -46,7 +46,7 @@ class EmployeeRepository implements IEmployeeRepository {
 
     newEmployee.role_id = role_id;
 
-    await newEmployee.save();
+    return await newEmployee.save();
   }
 
   async delete(id: number): Promise<void> {

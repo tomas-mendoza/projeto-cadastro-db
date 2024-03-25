@@ -12,10 +12,21 @@ services:
       - MYSQL_DATABASE=projeto_cadastro
     volumes:
       - mysql_data:/var/lib/mysql
+    profiles: ['prod', 'dev']
   api:
     build:
       context: ./
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.prod
+    tty: true
+    ports: 
+      - 8000:8000
+    depends_on:
+      - database
+    profiles: ['prod']
+  api-dev:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.dev
     tty: true
     ports: 
       - 8000:8000
@@ -23,6 +34,6 @@ services:
       - database
     volumes:
     - ./src:/home/app/src
-
+    profiles: ['dev']
 volumes:
   mysql_data:

@@ -13,7 +13,7 @@ export const updateRoleSchema = z.object({
     id: z
       .coerce
       .number({ required_error: 'You should insert a valid id!' })
-      .min(1, { message: 'You should insert a id greater than 0' })
+      .min(1, { message: 'You should insert an id greater than 0' })
   }),
   body: z.object({
     description: z

@@ -8,7 +8,7 @@ export const createEmployeeSchema = z.object({
     age: z
       .number({ required_error: 'You should insert a age!' })
       .int({ message: 'An age should be an integer!' })
-      .min(1, { message: 'You should insert a age greater than or equal to 1!' }),
+      .min(1, { message: 'You should insert an age greater than or equal to 1!' }),
     cpf: z
       .string({ required_error: 'You should insert a CPF!' })
       .refine((value) => value.match(/^\d{3}\d{3}\d{3}\d{2}$/g), { message: 'The CPF must be valid!' }),
